@@ -1,3 +1,3 @@
 # Project One
 
-The fundamental purpos of thie project is for me to develop new skills within the facinating world of decentralisation in combination with encryption.
+The fundamental purpose of the project is for me to develop new skills within the fascinating world of decentralization in combination with encryption.
