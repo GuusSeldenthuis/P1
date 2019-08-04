@@ -17,14 +17,15 @@ public class BlockMiner {
         block.timestamp = java.time.Instant.now().getEpochSecond();
 
         do {
-            block.nonce++;
-            block.hash = block.calculateBlockHash();
-
             if (block.timestamp != java.time.Instant.now().getEpochSecond()) {
                 block.timestamp = java.time.Instant.now().getEpochSecond();
-                System.out.println("Reset nonce to 0 after " + block.nonce + " iterations and updated timestamp to " + block.timestamp);
+                System.out.println("Mining with " + Double.valueOf(block.nonce / 1000) + " KH/s.");
                 block.nonce = 0;
+            } else {
+                block.nonce++;
             }
+
+            block.hash = block.calculateBlockHash();
 
         } while (new BigInteger(block.hash, 16).compareTo(new BigInteger("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)) > 0);
         return block;
