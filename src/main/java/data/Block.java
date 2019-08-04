@@ -1,6 +1,7 @@
 package data;
 
 import crypto.Sha256;
+import error.BlockInvalidError;
 
 import java.math.BigInteger;
 
@@ -36,17 +37,28 @@ public class Block {
     }
 
     public String calculateBlockHash() {
-        return Sha256.encrypt(this.previousBlock +
+        return Sha256.encryptSha256(this.previousBlock +
         this.height +
         this.nonce +
         this.timestamp);
     }
 
-    public boolean isValid(BlockChain blockChain) {
-        return
-                calculateBlockHash().equals(this.hash) &&
-                this.previousBlock == blockChain.get(this.height - 1).hash &&
-                new BigInteger(this.hash, 16).compareTo(new BigInteger("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)) < 0;
+    public void validate(BlockChain blockChain) throws BlockInvalidError {
+        // Check the block's hash.
+        if (!calculateBlockHash().equals(this.hash)) {
+            throw new BlockInvalidError("Hash doesn't match self-generated hash.", this);
+        }
+
+        // Check previous block.
+        if (this.height != 0 && this.previousBlock != blockChain.get(this.height - 1).hash) {
+            throw new BlockInvalidError("Previous block doesn't match the chain's previous height.", this);
+        }
+
+        // Check block-hash's difficulty compared to the current target.
+        if (new BigInteger(this.hash, 16).compareTo(new BigInteger("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)) >= 0) {
+            throw new BlockInvalidError("Block difficulty is underneath current target.", this);
+        }
+
     }
 
     @Override

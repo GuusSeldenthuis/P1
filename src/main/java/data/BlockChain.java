@@ -1,5 +1,7 @@
 package data;
 
+import error.BlockInvalidError;
+
 import java.util.ArrayList;
 
 public class BlockChain {
@@ -14,9 +16,11 @@ public class BlockChain {
         if (block.height == 0) {
             return this.blockChain.add(block);
         }
-        if (block.isValid(this)) {
+        try {
+            block.validate(this);
              return this.blockChain.add(block);
-        } else {
+        } catch (BlockInvalidError blockInvalidError) {
+            System.out.println("Unable to add block to current blockChain: " + blockInvalidError.getMessage());
             return false;
         }
     }
@@ -31,5 +35,28 @@ public class BlockChain {
 
     public int calculateNextBlockTarget() {
         return 0;
+    }
+
+    public boolean verify() {
+        for (Block block : this.blockChain) {
+            try {
+                block.validate(this);
+            } catch (BlockInvalidError blockInvalidError) {
+                System.out.println("Verifying failed at block: " + blockInvalidError.getBlock().height);
+                System.out.println("Reason: " + blockInvalidError.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void printOut() {
+        for (Block block : this.blockChain) {
+            System.out.println(block.toString());
+        }
+    }
+
+    public int getSize() {
+        return this.blockChain.size();
     }
 }
