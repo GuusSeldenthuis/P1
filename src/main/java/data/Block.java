@@ -12,38 +12,46 @@ public class Block {
     public int difficulty;
     public long nonce;
     public long timestamp;
+    public String data;
 
     public Block(String hash,
                  String previousBlock,
                  int height,
                  int target,
                  long nonce,
-                 long timestamp) {
+                 long timestamp,
+                 String data) {
         this.hash = hash;
         this.previousBlock = previousBlock;
         this.height = height;
         this.difficulty = target;
         this.nonce = nonce;
         this.timestamp = timestamp;
+        this.data = data;
     }
 
     public Block (String previousBlock,
                   int height,
-                  int target
+                  int target,
+                  String data
     ) {
         this.previousBlock = previousBlock;
         this.height = height;
         this.difficulty = target;
+        this.data = data;
     }
 
     public String calculateBlockHash() {
-        return Sha256.encryptSha256(this.previousBlock +
+        return Sha256.encryptSha256(
+        this.previousBlock +
         this.height +
         this.nonce +
-        this.timestamp);
+        this.timestamp +
+        this.data);
     }
 
     public void validate(BlockChain blockChain) throws BlockInvalidError {
+
         // Check the block's hash.
         if (!calculateBlockHash().equals(this.hash)) {
             throw new BlockInvalidError("Hash doesn't match self-generated hash.", this);
@@ -70,6 +78,7 @@ public class Block {
                 ", target=" + difficulty +
                 ", nonce=" + nonce +
                 ", timestamp=" + timestamp +
+                ", data=" + data +
                 '}';
     }
 }

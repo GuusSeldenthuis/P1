@@ -7,12 +7,13 @@ public class P1 {
         BlockChain blockChain = new BlockChain();
 
         blockChain.addBlock(new Block(
-                "000000f7375e0c1d6d782e03cd2c10a5e62708fe415732c951aca5b7e704fa86",
+                "0000004f89f478faa0e7b4a88c9927fca1d72353c7b90b2a890f911779d03440",
                 "",
                 0,
                 0,
-                23182942,
-                1564871394));
+                186704,
+                1564956562,
+                "da7zvYXeHaaYz7yRylCnPgNXZJDTRcoeVBnZgajlFMmSpGBjNfckejzzZzphHDjTGGr5dd+GZbjstjSpa4aeQ4BVsgSa8CBvfrG2ZpHYRBtsK3FqLY53smWmEVu46WQ/pKsousVQC66XQLO+rAymHXcTvdusSCsD9WgsFpre1yzmnmzuvJSrihnuFRgbV8QWhUOIFDmjkTSQ8dcXzBeAysJC3vKcdJDGI1qdqm3qiC/Jfy5mbXQNK5Ic0FtYi7wnY/TQ4OpQzsXBkWkP8ycYB76Nq/m/bmwLj6RykNYSePiS9jY9ZAs6TaZwCGy7HYfkBiWPfP5YORa19RjioVI3HQ=="));
 
         System.out.println("Starting mining 4 new blocks...");
         while (blockChain.getSize() != 5) {
